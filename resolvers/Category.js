@@ -1,8 +1,12 @@
-const { products } = require("../db")
-
 exports.Category = {
-  products: (parent, args, context) => {
-    const categoryId = parent.id
-    return products.filter((product) => product.categoryId === categoryId)
+  products: ({ id: categoryId }, { filter }, { products }) => {
+    const categoryProducts = products.filter((product) => product.categoryId === categoryId)
+    let filteredCategoryProducts = categoryProducts
+
+    if (filter) {
+      if (filter.onSale) filteredCategoryProducts = categoryProducts.filter(product => product.onSale)
+    }
+
+    return filteredCategoryProducts
   }
 }

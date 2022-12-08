@@ -1,10 +1,16 @@
 const { ApolloServer } = require('apollo-server')
 const { typeDefs } = require("./schema")
 const { resolvers } = require("./resolvers")
+const { products, categories, reviews } = require("./db")
 
 const server = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers,
+  context: {
+    products,
+    categories,
+    reviews
+  }
 })
 
 server.listen().then(({ url }) => {
